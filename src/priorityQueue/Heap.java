@@ -16,8 +16,10 @@ public class Heap {
             tab[i]=val;
             this.sort();
         }
-
         else throw new IndexOutOfBoundsException();
+    }
+    public int[] getTab(){
+        return this.tab;
     }
 
     public void setTab(int[] t){
@@ -54,7 +56,7 @@ public class Heap {
 
         if(leftInd<n ){
             if(rightInd<n){
-                if(this.tab[rightInd] > this.tab[leftInd] && this.tab[rightInd]>this.tab[maxInd]){ //si la valeur a droite est plus grande que la valeur a gauche et a la racine
+                if(this.tab[rightInd] >= this.tab[leftInd] && this.tab[rightInd]>this.tab[maxInd]){ //si la valeur a droite est plus grande que la valeur a gauche et a la racine
                     maxInd = rightInd;
                     modified=true;
                 }
@@ -62,20 +64,24 @@ public class Heap {
                     maxInd = leftInd;
                     modified=true;
                 }
+
+
             }
             else if(this.tab[leftInd] > this.tab[maxInd]){ //si la valeur a droite n'existe pas et que la valeur a gauche est plus grande que la valeur à la racine
                     maxInd = leftInd;
                     modified=true;
+
             }
 
         }
         else if(rightInd<n){ //si la valeur a gauche n'existe pas et que la valeur a droite est plus grande que la valeur a la racine
-            if(this.tab[rightInd] > this.tab[maxInd]){
+            if(this.tab[rightInd] >this.tab[maxInd]){
                 maxInd = rightInd;
                 modified=true;
             }
 
         }
+
 
         if (modified) { //en cas de modification des valeurs d'indice, remplacement des valeurs aux indices et rééexution du code
             int tmp = tab[i];
@@ -85,21 +91,27 @@ public class Heap {
         }
     }
 
-    // Function to print an array
     public void printArray() {
         for (int j : this.tab) System.out.print(j + " ");
         System.out.println();
     }
-
-    // Driver code
     public static void main(String[] args) {
-        int[] arr = { 1, 12, 9, 5, 6, 10 };
+        int[] tab = { 1, 12, 1073741823, 5, 6, 10 };
 
-        Heap hs = new Heap(arr.length);
-        hs.setTab(arr);
+        Heap h = new Heap(tab.length);
+        h.setTab(tab);
+        h.setValInd(2,11);
+        h.setValInd(2,8);
+        System.out.println("Sorted array is");
+        h.printArray();
 
         System.out.println("Sorted array is");
-        hs.printArray();
+        h.printArray();
+
+        h.setValInd(4,8);
+        System.out.println("Sorted array is");
+        h.printArray();
+
     }
 
 }
