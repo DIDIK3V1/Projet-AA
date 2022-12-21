@@ -23,6 +23,12 @@ public class VertexValue {
         return cost;
     }
 
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("( ").append(this.parent).append(" - ").append(this.VERTEX).append(" cout : ").append(this.cost).append(" )  ");;
+        return sb.toString();
+    }
     public void update(int p, int c){
         if(this.cost > c){
             this.parent = p;

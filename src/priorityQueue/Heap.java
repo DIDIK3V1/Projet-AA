@@ -1,28 +1,28 @@
 package priorityQueue;
 
 public class Heap {
-    private int[] tab;
+    private VertexValue[] tab;
     public Heap(int size){
-        this.tab=new int[size];
+        this.tab= new VertexValue[size];
     }
 
-    public int getValInd(int i){
+    public VertexValue getValInd(int i){
         if (i<this.tab.length)
             return tab[i];
         else throw new IndexOutOfBoundsException();
     }
-    public void setValInd(int i, int val){
+    public void setValInd(int i, VertexValue val){
         if (i<this.tab.length){
             tab[i]=val;
             this.sort();
         }
         else throw new IndexOutOfBoundsException();
     }
-    public int[] getTab(){
+    public VertexValue[] getTab(){
         return this.tab;
     }
 
-    public void setTab(int[] t){
+    public void setTab(VertexValue[] t){
         if (t.length==this.tab.length){
             tab=t;
             this.sort();
@@ -38,7 +38,7 @@ public class Heap {
 
         // Heap sort
         for (int i = n - 1; i >= 0; i--) {
-            int temp = this.tab[0];
+            VertexValue temp = this.tab[0];
             this.tab[0] = this.tab[i];
             this.tab[i] = temp;
 
@@ -56,18 +56,18 @@ public class Heap {
 
         if(leftInd<n ){
             if(rightInd<n){
-                if(this.tab[rightInd] >= this.tab[leftInd] && this.tab[rightInd]>this.tab[maxInd]){ //si la valeur a droite est plus grande que la valeur a gauche et a la racine
+                if(this.tab[rightInd].getCost() >= this.tab[leftInd].getCost() && this.tab[rightInd].getCost()>this.tab[maxInd].getCost()){ //si la valeur a droite est plus grande que la valeur a gauche et a la racine
                     maxInd = rightInd;
                     modified=true;
                 }
-                else if(this.tab[leftInd] > this.tab[rightInd] && this.tab[leftInd] > this.tab[maxInd]){ //si la valeur a gauche est plus grande que la valeur a droite et a la racine
+                else if(this.tab[leftInd].getCost() > this.tab[rightInd].getCost() && this.tab[leftInd].getCost() > this.tab[maxInd].getCost()){ //si la valeur a gauche est plus grande que la valeur a droite et a la racine
                     maxInd = leftInd;
                     modified=true;
                 }
 
 
             }
-            else if(this.tab[leftInd] > this.tab[maxInd]){ //si la valeur a droite n'existe pas et que la valeur a gauche est plus grande que la valeur à la racine
+            else if(this.tab[leftInd].getCost() > this.tab[maxInd].getCost()){ //si la valeur a droite n'existe pas et que la valeur a gauche est plus grande que la valeur à la racine
                     maxInd = leftInd;
                     modified=true;
 
@@ -75,7 +75,7 @@ public class Heap {
 
         }
         else if(rightInd<n){ //si la valeur a gauche n'existe pas et que la valeur a droite est plus grande que la valeur a la racine
-            if(this.tab[rightInd] >this.tab[maxInd]){
+            if(this.tab[rightInd].getCost() >this.tab[maxInd].getCost()){
                 maxInd = rightInd;
                 modified=true;
             }
@@ -84,33 +84,39 @@ public class Heap {
 
 
         if (modified) { //en cas de modification des valeurs d'indice, remplacement des valeurs aux indices et rééexution du code
-            int tmp = tab[i];
+            VertexValue tmp = tab[i];
             this.tab[i] = tab[maxInd];
             this.tab[maxInd] = tmp;
             reorganize_from_top(n, maxInd);
         }
     }
 
-    public void printArray() {
-        for (int j : this.tab) System.out.print(j + " ");
+    public void printArray(int endval) {
+        for (int i=0; i<endval; i++){
+            System.out.print( this.tab[i].toString() + " ");
+        }
         System.out.println();
     }
     public static void main(String[] args) {
-        int[] tab = { 1, 12, 1073741823, 5, 6, 10 };
+        VertexValue vv1 = new VertexValue(1,2,1);
+        VertexValue vv2 = new VertexValue(2,6, 13);
+        VertexValue vv3 = new VertexValue(3, 1, 1073741823);
+        VertexValue vv4 = new VertexValue(4, 2, 5);
+        VertexValue vv5 = new VertexValue(5, 6, 6);
+        VertexValue vv6 = new VertexValue(6, 3, 9);
+        VertexValue[] tab = {vv1,vv2,vv3,vv4,vv5,vv6};
 
         Heap h = new Heap(tab.length);
         h.setTab(tab);
-        h.setValInd(2,11);
-        h.setValInd(2,8);
-        System.out.println("Sorted array is");
-        h.printArray();
+        VertexValue vv7 = new VertexValue(7, 6, 11);
+        VertexValue vv8 = new VertexValue(8, 2, 8);
+        h.setValInd(2,vv7);
+        h.setValInd(2,vv8);
+        h.printArray(tab.length);
 
-        System.out.println("Sorted array is");
-        h.printArray();
-
-        h.setValInd(4,8);
-        System.out.println("Sorted array is");
-        h.printArray();
+        VertexValue vv9 = new VertexValue(9, 5, 8);
+        h.setValInd(4,vv9);
+        h.printArray(tab.length);
 
     }
 

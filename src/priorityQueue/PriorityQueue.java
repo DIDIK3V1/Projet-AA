@@ -1,5 +1,7 @@
 package priorityQueue;
 import java.lang.Math;
+import java.util.Vector;
+
 public class PriorityQueue {
     private Heap heaptab;
     private final int MAX_SIZE;
@@ -10,29 +12,31 @@ public class PriorityQueue {
         Empty();
     }
     public void Empty(){
-        int[] tab = new int[MAX_SIZE];
+        VertexValue[] tab = new VertexValue[MAX_SIZE];
         this.last=0;
+        VertexValue vv = new VertexValue(0,0,(int)Math.pow(2,30)-1);
         //création d'un tableau "vide" de priorité maximale (ne change pas l'ordre des elements après le last)
         for(int i=0; i<MAX_SIZE;i++){
-            tab[i]=(int)Math.pow(2,30)-1;
+            tab[i]=vv;
         }
         heaptab.setTab(tab);
     }
 
-    public void Add(int val){
+    public void Add(VertexValue val){
         if (this.last<MAX_SIZE){
             this.last++;
             heaptab.setValInd(this.last,val);
         }else throw new IndexOutOfBoundsException();
     }
-    public int Head(){
+    public VertexValue Head(){
         return this.heaptab.getValInd(0);
     }
 
-    public int Drop(){
+    public VertexValue Drop(){
         if(this.last>=0){
-            int val = heaptab.getValInd(0);
-            heaptab.setValInd(0,(int) Math.pow(2,30)-1);
+            VertexValue val = heaptab.getValInd(0);
+            VertexValue vv = new VertexValue(0,0,(int)Math.pow(2,30)-1);
+            heaptab.setValInd(0,vv);
             this.last--;
             return val;
         }else throw new IndexOutOfBoundsException();
@@ -41,8 +45,9 @@ public class PriorityQueue {
 
     public void Extract(PriorityQueue Y){
         if (last>=0){
-            int val = heaptab.getValInd(0);
-            heaptab.setValInd(0,(int) Math.pow(2,30)-1);
+            VertexValue val = heaptab.getValInd(0);
+            VertexValue vv = new VertexValue(0,0, (int) Math.pow(2,30)-1);
+            heaptab.setValInd(0,vv);
             this.last--;
             Y.Add(val);
         }else throw new IndexOutOfBoundsException();
@@ -50,28 +55,32 @@ public class PriorityQueue {
     }
 
     public void printArray() {
-        heaptab.printArray();
+        heaptab.printArray(this.last);
     }
 
     public int Count(){
         return this.last;
     }
     public static void main(String[] args) {
-        int[] tab = { 1, 12, 9, 5, 6, 10 };
-        PriorityQueue pq = new PriorityQueue(tab.length);
-        PriorityQueue pq2 = new PriorityQueue(tab.length);
+        PriorityQueue pq = new PriorityQueue(6);
+        PriorityQueue pq2 = new PriorityQueue(6);
+
+        VertexValue vv1 = new VertexValue(1,2,12);
+        VertexValue vv2 = new VertexValue(2,3, 1);
+        VertexValue vv3 = new VertexValue(3, 1, 3);
         pq.printArray();
-        pq.Add(12);
+        pq.Add(vv1);
         pq.printArray();
-        pq.Add(1);
+        pq.Add(vv2);
         pq.printArray();
-        pq.Add(3);
+        pq.Add(vv3);
         pq.printArray();
-        int val = pq.Head();
-        System.out.println(val);
+
+        VertexValue val = pq.Head();
+        System.out.println(val.toString());
         pq.Drop();
-        int val2 = pq.Head();
-        System.out.println(val2);
+        VertexValue val2 = pq.Head();
+        System.out.println(val2.toString());
         pq.printArray();
         pq.Extract(pq2);
         pq2.printArray();
