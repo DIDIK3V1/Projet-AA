@@ -26,7 +26,7 @@ public class VertexValue {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("( ").append(this.parent).append(" - ").append(this.VERTEX).append(" cout : ").append(this.cost).append(" )  ");;
+        sb.append("( ").append(this.VERTEX).append(" - ").append(this.parent).append(" cout : ").append(this.cost).append(" )  ");
         return sb.toString();
     }
     public void update(int p, int c){

@@ -29,7 +29,7 @@ public class Heap {
         }
         else throw new IndexOutOfBoundsException();
     }
-    private void sort() {
+    public void sort() {
         int n = this.tab.length;
 
         for (int i = n / 2 - 1; i >= 0; i--) {
