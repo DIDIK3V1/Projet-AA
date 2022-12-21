@@ -1,11 +1,11 @@
 package priorityQueue;
 
-public class vertexValue {
+public class VertexValue {
     private final int VERTEX;
     private int parent;
     private int cost;
 
-    public vertexValue(int x, int p, int c){
+    public VertexValue(int x, int p, int c){
         this.VERTEX = x;
         this.parent = p;
         this.cost = c;
@@ -19,16 +19,8 @@ public class vertexValue {
         return parent;
     }
 
-    public void setParent(int parent) {
-        this.parent = parent;
-    }
-
     public int getCost() {
         return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public void update(int p, int c){
