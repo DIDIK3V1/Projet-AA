@@ -2,15 +2,30 @@ package priorityQueue;
 
 public class Heap {
     private VertexValue[] tab;
+
+    /**
+     * Constructeur de tas(Heap)
+     * @param size taille du tas
+     */
     public Heap(int size){
         this.tab= new VertexValue[size];
     }
 
+    /**
+     * Retourne la VertexValue a l'indice i
+     * @param i index de la valeur
+     * @return VertexValue
+     */
     public VertexValue getValInd(int i){
         if (i<this.tab.length)
             return tab[i];
         else throw new IndexOutOfBoundsException();
     }
+    /**
+     * ajoute val a l'indice i et trie
+     * @param i index de la valeur a modifier
+     * @param val valeur à ajouter
+     */
     public void setValInd(int i, VertexValue val){
         if (i<this.tab.length){
             tab[i]=val;
@@ -18,10 +33,33 @@ public class Heap {
         }
         else throw new IndexOutOfBoundsException();
     }
-    public VertexValue[] getTab(){
-        return this.tab;
+
+    /**
+     * ajoute val a l'indice i uniquement si le vertex n'est pas dans la liste, sinon modifie la valeur existante dans la file et trie dans les deux cas
+     * @param i index de la valeur a modifier si le sommet n'existe pas dans la liste
+     * @param val valeur a ajouter qui modifiera les valeurs du tas
+     */
+    public void setOrModifVal(int i, VertexValue val){
+        boolean exist = false;
+        for(VertexValue vv : this.tab){
+            if(vv.getVertex() == val.getVertex()){
+                exist = true;
+                if(vv.getCost()>val.getCost()){
+                    vv.update(val.getParent(),val.getCost());
+                    this.sort();
+                }
+            }
+        }
+        if(!exist){
+            this.setValInd(i, val);
+        }
+
     }
 
+    /**
+     * modifie le tableau de VertexValue et le trie
+     * @param t tableau de VertexValue
+     */
     public void setTab(VertexValue[] t){
         if (t.length==this.tab.length){
             tab=t;
@@ -29,25 +67,31 @@ public class Heap {
         }
         else throw new IndexOutOfBoundsException();
     }
-    public void sort() {
+
+    /**
+     * trie en utilisant l'olgorithme du tri par tas
+     */
+    private void sort() {
         int n = this.tab.length;
 
         for (int i = n / 2 - 1; i >= 0; i--) {
             reorganize_from_top(n, i);
         }
 
-        // Heap sort
         for (int i = n - 1; i >= 0; i--) {
             VertexValue temp = this.tab[0];
             this.tab[0] = this.tab[i];
             this.tab[i] = temp;
-
             reorganize_from_top( i, 0);
         }
     }
 
 
-
+    /**
+     * Trie le tas en considèrant le tableau comme un arbre
+     * @param n taille du tas a trier
+     * @param i index de la racine de l'arbre
+     */
     void reorganize_from_top(int n, int i) {
         int maxInd = i; //index de la racine de l'arbre
         int leftInd = (2 * i) + 1; //index du fils gauche (+1 car en java les tableaux commencent a zero)
@@ -91,12 +135,28 @@ public class Heap {
         }
     }
 
-    public void printArray(int endval) {
-        for (int i=0; i<endval; i++){
-            System.out.print( this.tab[i].toString() + " ");
+    /**
+     * retourne dans une chaine de caractère le tas jusqu'a endval;
+     * @param endval valeur de fin de l'affichage
+     * @return String
+     */
+
+    public String toString(int endval) {
+        if (endval>this.tab.length){
+            endval= this.tab.length;
         }
-        System.out.println();
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<endval; i++){
+            sb.append(this.tab[i].toString() ).append( " ");
+        }
+        sb.append('\n');
+        return sb.toString();
     }
+
+    /**
+     * Fonction main de tests
+     * @param args arguments du main
+     */
     public static void main(String[] args) {
         VertexValue vv1 = new VertexValue(1,2,1);
         VertexValue vv2 = new VertexValue(2,6, 13);
@@ -112,11 +172,11 @@ public class Heap {
         VertexValue vv8 = new VertexValue(8, 2, 8);
         h.setValInd(2,vv7);
         h.setValInd(2,vv8);
-        h.printArray(tab.length);
+        System.out.println(h.toString(tab.length));
 
         VertexValue vv9 = new VertexValue(9, 5, 8);
         h.setValInd(4,vv9);
-        h.printArray(tab.length);
+        System.out.println(h.toString(tab.length));
 
     }
 
