@@ -37,15 +37,15 @@ public class ParentCost {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Parent : ");
+
         if (PARENT==0){
-           sb.append("Source,  Coût : 0") ;
+           sb.append("Source") ;
         }
         else if (PARENT == -1) {
-            sb.append("Aucun,  Coût : infini, Aucune Route");
+            sb.append("Parent : Aucun, Aucune Route");
         }
         else {
-            sb.append(PARENT).append(", Coût : ").append(COST);
+            sb.append("Parent : ").append(PARENT).append(", Coût : ").append(COST);
         }
 
         return sb.toString();

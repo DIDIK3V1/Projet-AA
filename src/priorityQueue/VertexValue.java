@@ -8,6 +8,7 @@ public class VertexValue {
     //private int cost;
 
     private ParentCost parentCost;
+    private boolean haveBeenSeen;
 
     /**
      * Construteur de VertexValue (Correspond a un arc contenant le sommet courant, le parent et le coût de celui ci)
@@ -20,6 +21,7 @@ public class VertexValue {
         //this.parent = p;
         //this.cost = c;
         this.parentCost = new ParentCost(p,c);
+        this.haveBeenSeen=false;
     }
 
     /**
@@ -36,6 +38,14 @@ public class VertexValue {
      */
     public int getParent() {
         return parentCost.getPARENT();
+    }
+
+    public boolean haveBeanSeen() {
+        return haveBeenSeen;
+    }
+
+    public void seen() {
+        this.haveBeenSeen = true;
     }
 
     public ParentCost getParentCost(){
