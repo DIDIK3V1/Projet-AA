@@ -57,24 +57,33 @@ public class Graph {
                 j++;
             }
             for(int k = j; j<this.SIZE; j++){
-                this.VERTEX_SUCCESSOR[i][k] = new ParentCost(-1, Integer.MAX_VALUE); // on remplit le reste du tableau de valeurs
+                this.VERTEX_SUCCESSOR[i][k] = new ParentCost(-1, (int)Math.pow(2,30)-1); // on remplit le reste du tableau de valeurs
             }
         }
     }
 
-    public ParentCost[] Dijkstra(Graph G, int s){
-        PriorityQueue pq = new PriorityQueue(G.SIZE);
-        pq.Add(new VertexValue(s,0,Integer.MAX_VALUE)); //ajout de s dans la file à prio
-        ParentCost[] A = new ParentCost[G.SIZE];
-        for(int i = 0; i < G.SIZE; i++){
-            A[i] = new ParentCost(-1, Integer.MAX_VALUE); //tout les sommets n'ont donc par défaut aucun chemin vers s
+    /**
+     * Effectue l'algorithme de Dijkstra sur le graphe
+     * @param s Sommet original
+     * @return tableau de couple ParentCost
+     */
+    public ParentCost[] Dijkstra(int s){
+        PriorityQueue pq = new PriorityQueue(this.SIZE);
+        pq.Add(new VertexValue(s,0,(int)Math.pow(2,30)-1)); //ajout de s dans la file à prio
+        ParentCost[] A = new ParentCost[this.SIZE];
+        for(int i = 0; i < this.SIZE; i++){
+            A[i] = new ParentCost(-1, (int)Math.pow(2,30)-1); //tout les sommets n'ont donc par défaut aucun chemin vers s
         }
         while (!pq.isEmpty()){
             VertexValue x = pq.Drop();
             A[x.getVertex()-1] = x.getParentCost();
-            for(int j = 0; j < G.SIZE; j++){
-                ParentCost succ = G.VERTEX_SUCCESSOR[x.getVertex()-1][j];
-                if(succ.getPARENT() != Integer.MAX_VALUE){
+            for(int j = 0; j < this.SIZE; j++){
+                ParentCost succ = this.VERTEX_SUCCESSOR[x.getVertex()-1][j];
+
+
+                if(succ.getPARENT() != -1){
+                    System.out.print(x.getVertex() + " ");
+                    System.out.println(succ);
                     pq.Add(new VertexValue(succ.getPARENT(), x.getVertex(), succ.getCOST()));
                 }else {
                     break;
@@ -84,7 +93,20 @@ public class Graph {
         return A;
     }
 
- 
+    /**
+     * Retourne une chaîne de caractère qui contient les valeurs du tableau de couple ParentCost
+     * @param pctab tableau de couple ParentCost
+     * @return String
+     */
+    public static String parentCostTabToString(ParentCost[] pctab){
+        StringBuilder sb= new StringBuilder();
+        for(ParentCost pc : pctab){
+            sb.append(pc).append('\n');
+        }
+        return sb.toString();
+    }
+
+
 
     /**
      * Renvoie la chaîne de caractère représentant le graphe
@@ -118,7 +140,18 @@ public class Graph {
         }
 
         Graph g = new Graph(scan);
-        System.out.println(g);
+        //System.out.println(g);
+
+
+        //g.Dijkstra(21);
+
+        ParentCost[] pctab = new ParentCost[5];
+        pctab[0]=new ParentCost(0,0);//sommet source == 1
+        pctab[1]=new ParentCost(1,3);//sommet 4
+        pctab[2]=new ParentCost(4,4);//sommet 5
+        pctab[3]=new ParentCost(5,8);//sommet 2
+        pctab[4]=new ParentCost(-1,(int)Math.pow(2,30)-1);//sommet 3 isolé
+        System.out.println(Graph.parentCostTabToString(pctab));
 
     }
 

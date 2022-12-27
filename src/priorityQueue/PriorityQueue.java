@@ -35,7 +35,7 @@ public class PriorityQueue {
      * Vérifie si une file a priorité est vide
      */
     public boolean isEmpty(){
-        return (Head().getVertex() ==  (int)Math.pow(2,30)-1);
+        return (this.Count()==0);
     }
 
     /**
