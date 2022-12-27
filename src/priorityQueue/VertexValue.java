@@ -38,6 +38,10 @@ public class VertexValue {
         return parentCost.getPARENT();
     }
 
+    public ParentCost getParentCost(){
+        return this.parentCost;
+    }
+
     /**
      * Accesseur du coût de cet Arc
      * @return int

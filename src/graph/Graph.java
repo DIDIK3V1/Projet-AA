@@ -56,11 +56,14 @@ public class Graph {
                 this.VERTEX_SUCCESSOR[i][j] = pc;
                 j++;
             }
+            for(int k = j; j<this.SIZE; j++){
+                this.VERTEX_SUCCESSOR[i][k] = new ParentCost(-1, Integer.MAX_VALUE); // on remplit le reste du tableau de valeurs
+            }
         }
     }
 
     public ParentCost[] Dijkstra(Graph G, int s){
-        PriorityQueue pq = new priorityQueue(G.SIZE);
+        PriorityQueue pq = new PriorityQueue(G.SIZE);
         pq.Add(new VertexValue(s,0,Integer.MAX_VALUE)); //ajout de s dans la file à prio
         ParentCost[] A = new ParentCost[G.SIZE];
         for(int i = 0; i < G.SIZE; i++){
@@ -69,14 +72,16 @@ public class Graph {
         while (!pq.isEmpty()){
             VertexValue x = pq.Drop();
             A[x.getVertex()-1] = x.getParentCost();
-            
+            for(int j = 0; j < G.SIZE; j++){
+                ParentCost succ = G.VERTEX_SUCCESSOR[x.getVertex()-1][j];
+                if(succ.getPARENT() != Integer.MAX_VALUE){
+                    pq.Add(new VertexValue(succ.getPARENT(), x.getVertex(), succ.getCOST()));
+                }else {
+                    break;
+                }
+            }
         }
-            x = A.process
-        A.add(x)
-        for v in G+(x.sommet)
-                modify(v,x.sommet,x.cout + cout(x.sommet,v))
-        reorganize(A) //pour avoir les sommet dans l'ordre
-        return A
+        return A;
     }
 
  
