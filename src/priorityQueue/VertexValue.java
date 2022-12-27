@@ -60,12 +60,16 @@ public class VertexValue {
         return parentCost.getCOST();
     }
 
-    /**
-     * Retourne une chaîne de caractère contenant le numero de sommet, le parent de ce sommet et le coût de l'arc
-     * @return String
-     */
+
     @Override
     public String toString(){
+        return this.VERTEX + ' '+ this.parentCost.toString() ;
+    }
+    /**
+     * Retourne une chaîne de caractère lisible par l'homme contenant le numero de sommet, le parent de ce sommet et le coût de l'arc
+     * @return String
+     */
+    public String toReadableString(){
 
         return "( " + this.VERTEX + " - " + this.parentCost.toString() + " )";
     }

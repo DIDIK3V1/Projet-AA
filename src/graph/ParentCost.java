@@ -34,18 +34,34 @@ public class ParentCost {
      * Transforme le couple en Chaîne de caractère
      * @return String
      */
-    @Override
-    public String toString(){
+    public String toReadableString(){
         StringBuilder sb = new StringBuilder();
 
         if (PARENT==0){
            sb.append("Source") ;
         }
         else if (PARENT == -1) {
-            sb.append("Parent : Aucun, Aucune Route");
+            sb.append("Parent : Aucun, Coût : Infini");
         }
         else {
             sb.append("Parent : ").append(PARENT).append(", Coût : ").append(COST);
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        if (PARENT==0){
+            sb.append(COST).append(" _") ;
+        }
+        else if (PARENT == -1) {
+            sb.append(COST).append(" _");
+        }
+        else {
+            sb.append(COST).append(" ").append(PARENT);
         }
 
         return sb.toString();

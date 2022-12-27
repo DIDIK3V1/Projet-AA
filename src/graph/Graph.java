@@ -67,18 +67,18 @@ public class Graph {
      * @param s Sommet original
      * @return tableau de VertexValue
      */
-    public VertexValue[] Dijkstra(int s){
+    public ParentCost[] Dijkstra(int s){
         PriorityQueue pq = new PriorityQueue(this.SIZE);
         pq.Add(new VertexValue(s,0,(int)Math.pow(2,30)-1)); //ajout de s dans la file à prio
-        VertexValue[] A = new VertexValue[this.SIZE];
+        ParentCost[] A = new ParentCost[this.SIZE];
         //peut être pas necessaire
         for(int i = 0; i < this.SIZE; i++){
-            A[i] = new VertexValue(0,-1, (int)Math.pow(2,30)-1); //tout les sommets n'ont donc par défaut aucun chemin vers s
+            A[i] = new ParentCost(-1, (int)Math.pow(2,30)-1); //tout les sommets n'ont donc par défaut aucun chemin vers s
         }
 
         while (!pq.isEmpty()){
             VertexValue x = pq.Drop();
-            A[x.getVertex()-1] = x;
+            A[x.getVertex()-1] = x.getParentCost();
             for(int j = 0; j < this.SIZE; j++){
                 ParentCost succ = this.VERTEX_SUCCESSOR[x.getVertex()-1][j];
 
@@ -96,19 +96,25 @@ public class Graph {
     }
 
     /**
-     * Retourne une chaîne de caractère qui contient les valeurs du tableau de VertexValue
-     * @param vvtab tableau de sommet
+     * Retourne une chaîne de caractère qui contient les valeurs du tableau de ParentCost
+     * @param pctab tableau de couple parent/cout
      * @return String
      */
-    public static String vertexValueTabToString(VertexValue[] vvtab){
+    public static String parentCostTabToReadableString(ParentCost[] pctab){
         StringBuilder sb= new StringBuilder();
-        for(VertexValue vv : vvtab){
-            sb.append(vv).append('\n');
+        for(int i=0; i<pctab.length; i++){
+            sb.append(i).append(" ").append(pctab[i].toReadableString()).append('\n');
         }
         return sb.toString();
     }
 
-
+    public static String parentCostTabToString(ParentCost[] pctab){
+        StringBuilder sb= new StringBuilder();
+        for(int i=0; i<pctab.length; i++){
+            sb.append(i).append(" (").append(pctab[i].toString()).append(")").append('\n');
+        }
+        return sb.toString();
+    }
 
     /**
      * Renvoie la chaîne de caractère représentant le graphe
@@ -147,14 +153,14 @@ public class Graph {
 
         //g.Dijkstra(21);
 
-        VertexValue[] vvtab = new VertexValue[5];
-        vvtab[0]=new VertexValue(1,0,0);//sommet source == 1
-        vvtab[1]=new VertexValue(4,1,3);//sommet 4
-        vvtab[2]=new VertexValue(5,4,4);//sommet 5
-        vvtab[3]=new VertexValue(2,5,8);//sommet 2
-        vvtab[4]=new VertexValue(3,-1,(int)Math.pow(2,30)-1);//sommet 3 isolé
-        System.out.println(Graph.vertexValueTabToString(vvtab));
-
+        ParentCost[] pctab = new ParentCost[5];
+        pctab[0]=new ParentCost(0,0);//sommet source == 1
+        pctab[1]=new ParentCost(4,5);//sommet 2
+        pctab[2]=new ParentCost(-1,(int)Math.pow(2,30)-1);//sommet 3 isolé
+        pctab[3]=new ParentCost(1,3);//sommet 4
+        pctab[4]=new ParentCost(4,4);//sommet 5
+        System.out.println(Graph.parentCostTabToReadableString(pctab));
+        System.out.println(Graph.parentCostTabToString(pctab));
     }
 
 
