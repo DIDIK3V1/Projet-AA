@@ -32,6 +32,13 @@ public class PriorityQueue {
     }
 
     /**
+     * Vérifie si une file a priorité est vide
+     */
+    public boolean isEmpty(){
+        return (Head().getVertex() ==  (int)Math.pow(2,30)-1);
+    }
+
+    /**
      * Ajoute dans le heaptab une valeur, peu importe si le sommet existe dans la file ou non
      * @param val valeur à ajouter
      */

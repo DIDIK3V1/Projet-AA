@@ -3,6 +3,7 @@ package graph;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import priorityQueue.*;
 
 public class Graph {
     private final int SIZE;
@@ -57,14 +58,19 @@ public class Graph {
             }
         }
     }
-/*
-    public priorityList Dijkstra(PriorityList s){
-        s.add(s,_,0) //ajout de s dans la file à prio
-        A<- Nil
-        for x in v x != s
-        //S.add(x,_,infinite)
-        c(x) <- infinite
-        while (!Empty(S))
+
+    public ParentCost[] Dijkstra(Graph G, int s){
+        PriorityQueue pq = new priorityQueue(G.SIZE);
+        pq.Add(new VertexValue(s,0,Integer.MAX_VALUE)); //ajout de s dans la file à prio
+        ParentCost[] A = new ParentCost[G.SIZE];
+        for(int i = 0; i < G.SIZE; i++){
+            A[i] = new ParentCost(-1, Integer.MAX_VALUE); //tout les sommets n'ont donc par défaut aucun chemin vers s
+        }
+        while (!pq.isEmpty()){
+            VertexValue x = pq.Drop();
+            A[x.getVertex()-1] = x.getParentCost();
+            
+        }
             x = A.process
         A.add(x)
         for v in G+(x.sommet)
@@ -73,7 +79,7 @@ public class Graph {
         return A
     }
 
- */
+ 
 
     /**
      * Renvoie la chaîne de caractère représentant le graphe
