@@ -146,7 +146,7 @@ public class Graph {
      * @param args arguments du main
      */
     public static void main(String[] args){
-        File file = new File("graphtest.txt");
+        File file = new File("graph.txt");
         Scanner scan;
         try {
             scan = new Scanner(file);
