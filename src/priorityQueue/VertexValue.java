@@ -44,7 +44,7 @@ public class VertexValue {
         return haveBeenSeen;
     }
 
-    public void seen() {
+    public void see() {
         this.haveBeenSeen = true;
     }
 

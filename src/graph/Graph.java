@@ -56,9 +56,9 @@ public class Graph {
                 this.VERTEX_SUCCESSOR[i][j] = pc;
                 j++;
             }
-            for(int k = j; j<this.SIZE; j++){
-                this.VERTEX_SUCCESSOR[i][k] = new ParentCost(-1, (int)Math.pow(2,30)-1); // on remplit le reste du tableau de valeurs
-            }
+            // for(int k = j; j<this.SIZE; j++){
+            //     this.VERTEX_SUCCESSOR[i][k] = new ParentCost(-1, (int)Math.pow(2,30)-1); // on remplit le reste du tableau de valeurs
+            // }
         }
     }
 
@@ -69,7 +69,7 @@ public class Graph {
      */
     public ParentCost[] Dijkstra(int s){
         PriorityQueue pq = new PriorityQueue(this.SIZE);
-        pq.Add(new VertexValue(s,0,(int)Math.pow(2,30)-1)); //ajout de s dans la file à prio
+        pq.Add(new VertexValue(s,0,0)); //ajout de s dans la file à prio
         ParentCost[] A = new ParentCost[this.SIZE];
         //peut être pas necessaire
         for(int i = 0; i < this.SIZE; i++){
@@ -78,17 +78,25 @@ public class Graph {
 
         while (!pq.isEmpty()){
             VertexValue x = pq.Drop();
-            A[x.getVertex()-1] = x.getParentCost();
-            for(int j = 0; j < this.SIZE; j++){
-                ParentCost succ = this.VERTEX_SUCCESSOR[x.getVertex()-1][j];
+            // System.out.println(x.getVertex());
+            if(x != null){
+                x.see();
+                System.out.println(x.getVertex());
+                System.out.println(x.getParentCost());
+                A[x.getVertex()-1] = x.getParentCost();
+                for(int j = 0; j < this.SIZE; j++){
+                    ParentCost succ = this.VERTEX_SUCCESSOR[x.getVertex()-1][j];
 
-
-                if(succ.getPARENT() != -1){
-                    System.out.print(x.getVertex() + " ");
-                    System.out.println(succ);
-                    pq.Add(new VertexValue(succ.getPARENT(), x.getVertex(), succ.getCOST()));
-                }else {
-                    break;
+                    if(succ != null){
+                        if(A[succ.getPARENT()-1].getPARENT() == -1){
+                            System.out.print(x.getVertex() + " ");
+                            System.out.println(succ);
+                            pq.AddModify(new VertexValue(succ.getPARENT(), x.getVertex(), succ.getCOST()+x.getCost()));
+                        }
+                        
+                    }else {
+                        break;
+                    }
                 }
             }
         }
@@ -103,7 +111,7 @@ public class Graph {
     public static String parentCostTabToReadableString(ParentCost[] pctab){
         StringBuilder sb= new StringBuilder();
         for(int i=0; i<pctab.length; i++){
-            sb.append(i).append(" ").append(pctab[i].toReadableString()).append('\n');
+            sb.append(i+1).append(" ").append(pctab[i].toReadableString()).append('\n');
         }
         return sb.toString();
     }
@@ -111,7 +119,7 @@ public class Graph {
     public static String parentCostTabToString(ParentCost[] pctab){
         StringBuilder sb= new StringBuilder();
         for(int i=0; i<pctab.length; i++){
-            sb.append(i).append(" (").append(pctab[i].toString()).append(")").append('\n');
+            sb.append(i+1).append(" (").append(pctab[i].toString()).append(")").append('\n');
         }
         return sb.toString();
     }
@@ -138,7 +146,7 @@ public class Graph {
      * @param args arguments du main
      */
     public static void main(String[] args){
-        File file = new File("graph.txt");
+        File file = new File("graphtest.txt");
         Scanner scan;
         try {
             scan = new Scanner(file);
@@ -148,19 +156,22 @@ public class Graph {
         }
 
         Graph g = new Graph(scan);
-        //System.out.println(g);
+        
+        System.out.println(g);
 
+        ParentCost[] pctab = g.Dijkstra(1);
 
-        //g.Dijkstra(21);
-
-        ParentCost[] pctab = new ParentCost[5];
-        pctab[0]=new ParentCost(0,0);//sommet source == 1
-        pctab[1]=new ParentCost(4,5);//sommet 2
-        pctab[2]=new ParentCost(-1,(int)Math.pow(2,30)-1);//sommet 3 isolé
-        pctab[3]=new ParentCost(1,3);//sommet 4
-        pctab[4]=new ParentCost(4,4);//sommet 5
         System.out.println(Graph.parentCostTabToReadableString(pctab));
         System.out.println(Graph.parentCostTabToString(pctab));
+
+        // ParentCost[] pctab = new ParentCost[5];
+        // pctab[0]=new ParentCost(0,0);//sommet source == 1
+        // pctab[1]=new ParentCost(4,5);//sommet 2
+        // pctab[2]=new ParentCost(-1,(int)Math.pow(2,30)-1);//sommet 3 isolé
+        // pctab[3]=new ParentCost(1,3);//sommet 4
+        // pctab[4]=new ParentCost(4,4);//sommet 5
+        // System.out.println(Graph.parentCostTabToReadableString(pctab));
+        // System.out.println(Graph.parentCostTabToString(pctab));
     }
 
 

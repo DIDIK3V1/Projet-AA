@@ -1,6 +1,8 @@
 package priorityQueue;
 import java.lang.Math;
 
+import graph.Graph;
+
 public class PriorityQueue {
     private final Heap HEAP_TAB;
     private final int MAX_SIZE;
@@ -54,11 +56,23 @@ public class PriorityQueue {
      * @param val valeur à ajouter
      */
     public void AddModify(VertexValue val){
-        if (this.last<MAX_SIZE){
-            this.last++;
-            HEAP_TAB.setOrModifVal(this.last,val);
-        }else throw new IndexOutOfBoundsException();
-
+        boolean exist = false;
+        for(int i=0; i<this.last; i++){
+            VertexValue vertex = this.HEAP_TAB.getValInd(i);
+            if(vertex.getVertex() == val.getVertex()){
+                exist = true;
+                if(vertex.getCost() > val.getCost()){
+                    this.HEAP_TAB.setValInd(i, val);
+                }
+                break;
+            }
+        }
+        if(!exist){
+            if (this.last<MAX_SIZE){
+                this.last++;
+                HEAP_TAB.setOrModifVal(this.last,val);
+            }else throw new IndexOutOfBoundsException();
+        }
     }
 
     /**
