@@ -68,7 +68,6 @@ public class Main {
             String s = ParentCost.parentCostTabToString(g.Dijkstra(Integer.parseInt(args[1])));
             writeFile(s,args[2]);
         }
-        System.out.println("Hello world!");
     }
 
 }
