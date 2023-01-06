@@ -48,6 +48,7 @@ public class Heap {
                     vv.update(val.getParent(),val.getCost());
                     this.sort();
                 }
+                break;
             }
         }
         if(!exist){

@@ -4,11 +4,8 @@ import graph.ParentCost;
 
 public class VertexValue {
     private final int VERTEX;
-    //private int parent;
-    //private int cost;
 
     private ParentCost parentCost;
-    private boolean haveBeenSeen;
 
     /**
      * Construteur de VertexValue (Correspond a un arc contenant le sommet courant, le parent et le coût de celui ci)
@@ -18,10 +15,7 @@ public class VertexValue {
      */
     public VertexValue(int x, int p, int c){
         this.VERTEX = x;
-        //this.parent = p;
-        //this.cost = c;
         this.parentCost = new ParentCost(p,c);
-        this.haveBeenSeen=false;
     }
 
     /**
@@ -40,13 +34,6 @@ public class VertexValue {
         return parentCost.getPARENT();
     }
 
-    public boolean haveBeanSeen() {
-        return haveBeenSeen;
-    }
-
-    public void see() {
-        this.haveBeenSeen = true;
-    }
 
     public ParentCost getParentCost(){
         return this.parentCost;
@@ -92,6 +79,8 @@ public class VertexValue {
         System.out.println(vv);
         vv.update(4,2);
         System.out.println(vv);
+        System.out.println(vv.toReadableString());
+
     }
 
 

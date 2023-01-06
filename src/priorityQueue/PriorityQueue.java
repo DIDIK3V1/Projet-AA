@@ -1,8 +1,6 @@
 package priorityQueue;
 import java.lang.Math;
 
-import graph.Graph;
-
 public class PriorityQueue {
     private final Heap HEAP_TAB;
     private final int MAX_SIZE;

@@ -50,6 +50,28 @@ public class ParentCost {
         return sb.toString();
     }
 
+    /**
+     * Retourne une chaîne de caractère qui contient les valeurs du tableau de ParentCost
+     * @param pctab tableau de couple parent/cout
+     * @return String
+     */
+    public static String parentCostTabToReadableString(ParentCost[] pctab){
+        StringBuilder sb= new StringBuilder();
+        for(int i=0; i<pctab.length; i++){
+            sb.append(i).append(" ").append(pctab[i].toReadableString()).append('\n');
+        }
+        return sb.toString();
+    }
+
+    public static String parentCostTabToString(ParentCost[] pctab){
+        StringBuilder sb= new StringBuilder();
+        for(int i=0; i<pctab.length; i++){
+            sb.append(i).append(" (").append(pctab[i].toString()).append(")").append('\n');
+        }
+        return sb.toString();
+    }
+
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
