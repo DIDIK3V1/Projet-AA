@@ -50,7 +50,7 @@ public class PriorityQueue {
     }
 
     /**
-     * Parcoure la file, si le sommet existe alors on modifie le parent et le coût uniquement si ceux de la valeur trouvée sont inférieure à la valeur qu'on veut rentrer, si la valeur existe pas alors on l'insère
+     * Parcoure la file, si le sommet existe alors on modifie le parent et le coût uniquement si le coût qu'on souhaite inséré est inferieur à la valeur déja stockée, si la valeur existe pas alors on l'insère
      * @param val valeur à ajouter
      */
     public void AddModify(VertexValue val){
