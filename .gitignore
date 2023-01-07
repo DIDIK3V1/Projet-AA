@@ -6,3 +6,4 @@ Dijnstra.jar
 *.class
 build/META-INF/MANIFEST.MF
 /build/
+/ret.txt
