@@ -1,2 +1,7 @@
 
 out/
+chemin.txt
+chemin_jar.txt
+Dijnstra.jar
+*.class
+build/META-INF/MANIFEST.MF

@@ -32,7 +32,7 @@ public class PriorityQueue {
     }
 
     /**
-     * Vérifie si une file a priorité est vide
+     * Vérifie si la file a priorité est vide
      */
     public boolean isEmpty(){
         return (this.Count()==0);
