@@ -1,11 +1,11 @@
 package priorityQueue;
 
-import graph.ParentCost;
+import graph.VertexCost;
 
 public class VertexValue {
     private final int VERTEX;
 
-    private ParentCost parentCost;
+    private VertexCost parentCost;
 
     /**
      * Construteur de VertexValue (Correspond a un arc contenant le sommet courant, le parent et le coût de celui ci)
@@ -15,7 +15,7 @@ public class VertexValue {
      */
     public VertexValue(int x, int p, int c){
         this.VERTEX = x;
-        this.parentCost = new ParentCost(p,c);
+        this.parentCost = new VertexCost(p,c);
     }
 
     /**
@@ -31,11 +31,11 @@ public class VertexValue {
      * @return int
      */
     public int getParent() {
-        return parentCost.getPARENT();
+        return parentCost.getVERTEX();
     }
 
 
-    public ParentCost getParentCost(){
+    public VertexCost getParentCost(){
         return this.parentCost;
     }
 
@@ -68,7 +68,7 @@ public class VertexValue {
      */
     public void update(int p, int c){
         if(this.getCost()>c){
-            this.parentCost=new ParentCost(p,c);
+            this.parentCost=new VertexCost(p,c);
         }
     }
 

@@ -2,13 +2,13 @@ package graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import priorityQueue.*;
 
 public class Graph {
     private final int SIZE;
-    private final int[] VERTEX;
-    private final ParentCost[][] VERTEX_SUCCESSOR;
+    private final VertexCost[][] VERTEX_SUCCESSOR;
 
     /**
      * Constructeur de Graph
@@ -17,8 +17,7 @@ public class Graph {
     public Graph(Scanner scan){
         int n = scan.nextInt();
         this.SIZE = n;
-        this.VERTEX = new int[this.SIZE];
-        this.VERTEX_SUCCESSOR = new ParentCost[n][n];
+        this.VERTEX_SUCCESSOR = new VertexCost[n][n];
         this.initVertexSuccessor(scan);
 
 
@@ -29,30 +28,34 @@ public class Graph {
      * @param scan scanner de fichier ou de la console
      */
     private void initVertexSuccessor(Scanner scan) {
-        int n;
+        int n =0;
         for(int i = 0; i < this.SIZE; i++) {
-            int prevn = i - 1;
-            n = scan.nextInt();
+            int prevn = i;
+            try {
+                n = scan.nextInt();
+            }catch (NoSuchElementException e){
+                this.VERTEX_SUCCESSOR[i][0] = null;
+            }
 
-            if (n > prevn + 2 && !(prevn <= 0)) { //si on a un sommet isolé
-                while (n > prevn + 2) {
-                    this.VERTEX[i] = prevn; //ce vertex n'a pas de parents ni de coût
-                    ParentCost pc = new ParentCost(-1 /*valeur impossible*/, (int) Math.pow(2, 30) - 1/*coût maximal pour signifier qu'il est inatégnable*/);
-                    this.VERTEX_SUCCESSOR[i][0] = pc;
+            if (n > prevn + 1 && !(prevn <= 0)) { //si on a un sommet isolé
+                while (n > prevn + 1) {
+                    this.VERTEX_SUCCESSOR[i][0] = null;
                     i++;
                     prevn++;
                 }
-
             }
-            this.VERTEX[i] = n;
-            n = scan.nextInt();
+            try {
+                n = scan.nextInt();
+            }catch (NoSuchElementException e){
+                this.VERTEX_SUCCESSOR[i][0] = null;
+            }
             int j = 0;
             while (n > 0) {
                 int p = n;
                 n = scan.nextInt();
                 int c = n;
                 n = scan.nextInt();
-                ParentCost pc = new ParentCost(p, c);
+                VertexCost pc = new VertexCost(p, c);
                 this.VERTEX_SUCCESSOR[i][j] = pc;
                 j++;
             }
@@ -62,26 +65,26 @@ public class Graph {
     /**
      * Effectue l'algorithme de Dijkstra sur le graphe
      * @param s Sommet original
-     * @return tableau de VertexValue
+     * @return tableau de VertexCost
      */
-    public ParentCost[] Dijkstra(int s){
+    public VertexCost[] Dijkstra(int s){
         PriorityQueue pq = new PriorityQueue(this.SIZE);
         pq.Add(new VertexValue(s,0,0)); //ajout de s dans la file à prio
-        ParentCost[] A = new ParentCost[this.SIZE];
+        VertexCost[] result = new VertexCost[this.SIZE];
         for(int i = 0; i < this.SIZE; i++){
-            A[i] = new ParentCost(-1, (int)Math.pow(2,30)-1); //tout les sommets n'ont donc par défaut aucun chemin vers s
+            result[i] = new VertexCost(-1, (int)Math.pow(2,30)-1); //tout les sommets n'ont donc par défaut aucun chemin vers s
         }
 
         while (!pq.isEmpty()){
             VertexValue x = pq.Drop();
             if(x != null){
-                A[x.getVertex()-1] = x.getParentCost();
+                result[x.getVertex()-1] = x.getParentCost();
                 for(int j = 0; j < this.SIZE; j++){
-                    ParentCost succ = this.VERTEX_SUCCESSOR[x.getVertex()-1][j];
+                    VertexCost succ = this.VERTEX_SUCCESSOR[x.getVertex()-1][j];
 
                     if(succ != null){
-                        if(A[succ.getPARENT()-1].getPARENT() == -1){
-                            pq.AddModify(new VertexValue(succ.getPARENT(), x.getVertex(), succ.getCOST()+x.getCost()));
+                        if(result[succ.getVERTEX()-1].getVERTEX() == -1){
+                            pq.AddModify(new VertexValue(succ.getVERTEX(), x.getVertex(), succ.getCOST()+x.getCost()));
                         }
                         
                     }else {
@@ -90,9 +93,29 @@ public class Graph {
                 }
             }
         }
-        return A;
+        return result;
     }
 
+    /**
+     * Retourne une chaîne de caractère qui contient les valeurs du tableau de VectexCost
+     * @param pctab tableau de couple sommet/cout
+     * @return String
+     */
+    public String vertexCostTabToReadableString(VertexCost[] pctab){
+        StringBuilder sb= new StringBuilder();
+        for(int i=0; i<pctab.length; i++){
+            sb.append(i+1).append(" ").append(pctab[i].toReadableString()).append('\n');
+        }
+        return sb.toString();
+    }
+
+    public String vectexCostTabToString(VertexCost[] pctab){
+        StringBuilder sb= new StringBuilder();
+        for(int i=0; i<pctab.length; i++){
+            sb.append(i+1).append(" (").append(pctab[i].toString()).append(")").append('\n');
+        }
+        return sb.toString();
+    }
 
 
 
@@ -106,7 +129,7 @@ public class Graph {
         for(int i=0; i<this.SIZE; i++){
             int j=0;
             while(VERTEX_SUCCESSOR[i][j]!= null){
-                sb.append("Sommet : ").append( VERTEX[i] ).append(' ').append(VERTEX_SUCCESSOR[i][j].toString()).append('\n');
+                sb.append("Sommet : ").append( i+1 ).append(' ').append(VERTEX_SUCCESSOR[i][j].toString()).append('\n');
                 j++;
             }
         }
@@ -131,10 +154,10 @@ public class Graph {
         
         System.out.println(g);
 
-        ParentCost[] pctab = g.Dijkstra(5);
+        VertexCost[] pctab = g.Dijkstra(5);
 
-        System.out.println(ParentCost.parentCostTabToReadableString(pctab));
-        System.out.println(ParentCost.parentCostTabToString(pctab));
+        System.out.println(g.vertexCostTabToReadableString(pctab));
+        System.out.println(g.vectexCostTabToString(pctab));
 
     }
 

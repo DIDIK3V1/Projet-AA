@@ -1,5 +1,4 @@
 import graph.Graph;
-import graph.ParentCost;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +34,7 @@ public class Main {
 
     public static int askForVertex(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("Numéro de Sommet : ");
+        System.out.print("\nNuméro de Sommet : ");
         return sc.nextInt();
     }
 
@@ -49,23 +48,23 @@ public class Main {
         if (args.length==0){//lire entrée standard graphe et sommet et ecrire entrée standard
             Graph g = askForGraph();
             int vertex = askForVertex();
-            String s = ParentCost.parentCostTabToString(g.Dijkstra(vertex));
+            String s = g.vectexCostTabToString(g.Dijkstra(vertex));
             System.out.println(s);
         }
         if (args.length==1){//demander sommet
             Graph g = loadGraph(args[0]);
             int vertex = askForVertex();
-            String s = ParentCost.parentCostTabToString(g.Dijkstra(vertex));
+            String s = g.vectexCostTabToString(g.Dijkstra(vertex));
             System.out.println(s);
         }
         if (args.length==2){//ecrire sortie standard
             Graph g = loadGraph(args[0]);
-            String s = ParentCost.parentCostTabToString(g.Dijkstra(Integer.parseInt(args[1])));
+            String s = g.vectexCostTabToString(g.Dijkstra(Integer.parseInt(args[1])));
             System.out.println(s);
         }
         if (args.length==3) {
             Graph g = loadGraph(args[0]);
-            String s = ParentCost.parentCostTabToString(g.Dijkstra(Integer.parseInt(args[1])));
+            String s = g.vectexCostTabToString(g.Dijkstra(Integer.parseInt(args[1])));
             writeFile(s,args[2]);
         }
     }
